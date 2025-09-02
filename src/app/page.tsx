@@ -7,10 +7,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const nextLeader = getNextStandupLeader();
 
   return {
-    title: `CNN Media Management - ${currentLeader} is leading this week`,
     description: `${currentLeader} is leading standup this week. Next week: ${nextLeader}. CNN Team Standup Rotation.`,
     openGraph: {
-      title: `CNN Media Management - ${currentLeader} is leading this week`,
+      title: `CNN Media Management Team`,
       description: `${currentLeader} is leading standup this week. Next week: ${nextLeader}.`,
       type: 'website',
       siteName: 'CNN Media Management',
@@ -25,13 +24,13 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `CNN Media Management - ${currentLeader} is leading this week`,
+      title: `CNN Media Management`,
       description: `${currentLeader} is leading standup this week. Next week: ${nextLeader}.`,
       images: ['/api/og-image'],
     },
     other: {
-      'slack:title': `CNN Media Management - ${currentLeader} is leading this week`,
-      'slack:description': `${currentLeader} is leading standup this week. Next week: ${nextLeader}.`,
+      'slack:title': `CNN Media Management - ${currentLeader} is leading standup this week`,
+      'slack:description': `Next week: ${nextLeader}.`,
       'slack:image': '/api/og-image',
     },
   };
