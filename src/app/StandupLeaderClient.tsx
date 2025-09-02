@@ -73,9 +73,9 @@ export default function StandupLeaderClient() {
                 <div className="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-full">
                   LIVE
                 </div>
-                <h2 className="text-lg font-bold text-black uppercase tracking-wide">
-                  This Week's Leader
-                </h2>
+                                  <h2 className="text-lg font-bold text-black uppercase tracking-wide">
+                    This Week&apos;s Leader
+                  </h2>
               </div>
               <div className="px-6 border-l-8 border-red-600">
                 <p className="text-5xl font-bold text-black leading-tight">
@@ -96,9 +96,9 @@ export default function StandupLeaderClient() {
                 <div className="bg-black text-white text-sm font-bold px-3 py-1 rounded-full">
                   UP NEXT
                 </div>
-                <h2 className="text-lg font-bold text-black uppercase tracking-wide">
-                  Next Week's Leader
-                </h2>
+                                  <h2 className="text-lg font-bold text-black uppercase tracking-wide">
+                    Next Week&apos;s Leader
+                  </h2>
               </div>
               <div className="px-6 border-l-8 border-black">
                 <p className="text-5xl font-bold text-black leading-tight">
@@ -108,7 +108,7 @@ export default function StandupLeaderClient() {
                   {nextWeekDates}
                 </p>
                 <p className="text-sm text-gray-600 mt-2">
-                  Preparing for next week's rotation
+                  Preparing for next week&apos;s rotation
                 </p>
               </div>
             </div>
