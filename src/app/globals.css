@@ -71,3 +71,17 @@ body {
   transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
+
+/* 3D Parallax Card Effect */
+.card-3d-hover {
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+
+.card-3d-hover:hover {
+  transform: perspective(1000px) rotateX(var(--mouse-y, 0deg)) rotateY(var(--mouse-x, 0deg)) translateZ(20px);
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.15),
+    0 0 0 1px rgba(255,255,255,0.1);
+}

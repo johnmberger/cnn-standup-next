@@ -10,6 +10,7 @@ export default function StandupLeaderClient() {
   const [nextLeader, setNextLeader] = useState<string>('');
   const [currentWeekDates, setCurrentWeekDates] = useState<string>('');
   const [nextWeekDates, setNextWeekDates] = useState<string>('');
+  const [cardRef, setCardRef] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setCurrentLeader(getCurrentStandupLeader());
@@ -49,9 +50,43 @@ export default function StandupLeaderClient() {
     }
   }, []);
 
+  // 3D Parallax mouse tracking
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef) return;
+    
+    const rect = cardRef.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    const mouseX = e.clientX - centerX;
+    const mouseY = e.clientY - centerY;
+    
+    // Calculate rotation angles (limited to prevent extreme tilting)
+    const rotateX = (mouseY / rect.height) * -15; // Max 15 degrees
+    const rotateY = (mouseX / rect.width) * 15;   // Max 15 degrees
+    
+    // Update CSS custom properties
+    cardRef.style.setProperty('--mouse-x', `${rotateY}deg`);
+    cardRef.style.setProperty('--mouse-y', `${rotateX}deg`);
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef) return;
+    
+    // Reset to neutral position
+    cardRef.style.setProperty('--mouse-x', '0deg');
+    cardRef.style.setProperty('--mouse-y', '0deg');
+  };
+
   return (
     <main className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="bg-white max-w-2xl w-full border-l-4 shadow-2xl animate-slide-in-up" style={{ borderLeftColor: '#ee0000' }}>
+      <div 
+        ref={setCardRef}
+        className="bg-white max-w-2xl w-full border-l-4 shadow-2xl animate-slide-in-up card-3d-hover" 
+        style={{ borderLeftColor: '#ee0000' }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
         {/* CNN Header */}
         <div className="text-white px-6 py-4" style={{ backgroundColor: '#ee0000' }}>
           <div className="flex items-center justify-between">
