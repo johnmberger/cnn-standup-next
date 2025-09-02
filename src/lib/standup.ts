@@ -1,3 +1,5 @@
+import { getWorkDays } from './holidays';
+
 // Dummy list of 10 people
 export const TEAM_MEMBERS = [
   "Allen",
@@ -50,9 +52,6 @@ export function getCurrentWeekNumber(): number {
 }
 
 export function getThisWeekDates(): string {
-  // Import getWorkDays from holidays
-  const { getWorkDays } = require('@/lib/holidays');
-  
   // Calculate current week dates (Monday to Friday)
   const now = new Date();
   const currentDay = now.getDay();
@@ -73,9 +72,6 @@ export function getThisWeekDates(): string {
 }
 
 export function getNextWeekDates(): string {
-  // Import getWorkDays from holidays
-  const { getWorkDays } = require('@/lib/holidays');
-  
   // Calculate next week dates (Monday to Friday)
   const now = new Date();
   const currentDay = now.getDay();

@@ -5,8 +5,6 @@ import StandupLeaderClient from './StandupLeaderClient';
 export async function generateMetadata(): Promise<Metadata> {
   const currentLeader = getCurrentStandupLeader();
   const nextLeader = getNextStandupLeader();
-  const weekNumber = getCurrentWeekNumber();
-  const currentYear = new Date().getFullYear();
 
   return {
     title: `CNN Media Management - ${currentLeader} is leading this week`,
