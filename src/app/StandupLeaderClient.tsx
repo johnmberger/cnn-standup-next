@@ -51,7 +51,7 @@ export default function StandupLeaderClient() {
 
   return (
     <main className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="bg-white max-w-2xl w-full border-l-4 shadow-2xl" style={{ borderLeftColor: '#ee0000' }}>
+      <div className="bg-white max-w-2xl w-full border-l-4 shadow-2xl animate-slide-in-up" style={{ borderLeftColor: '#ee0000' }}>
         {/* CNN Header */}
         <div className="text-white px-6 py-4" style={{ backgroundColor: '#ee0000' }}>
           <div className="flex items-center justify-between">
