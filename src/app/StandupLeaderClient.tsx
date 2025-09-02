@@ -178,10 +178,10 @@ export default function StandupLeaderClient() {
           <div className="mt-8 pt-6 border-t border-gray-200">
             <div className="flex justify-between items-center text-xs text-gray-500">
               <div>
-                Team rotation • {TEAM_MEMBERS.length} members
+                Standup rotation • {TEAM_MEMBERS.length} members
               </div>
               <div>
-                Week {getCurrentWeekNumber()} of {new Date().getFullYear()}
+                Week {getCurrentWeekNumber()} of 52
               </div>
             </div>
           </div>
