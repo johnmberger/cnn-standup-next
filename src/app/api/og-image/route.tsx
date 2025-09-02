@@ -1,12 +1,11 @@
 import { ImageResponse } from 'next/og';
-import { getCurrentStandupLeader, getCurrentWeekNumber } from '@/lib/standup';
+import { getCurrentStandupLeader, getThisWeekDates } from '@/lib/standup';
 
 export const runtime = 'edge';
 
 export async function GET() {
   const currentLeader = getCurrentStandupLeader();
-  const weekNumber = getCurrentWeekNumber();
-  const currentYear = new Date().getFullYear();
+  const thisWeekDates = getThisWeekDates();
 
   return new ImageResponse(
     (
@@ -23,23 +22,23 @@ export async function GET() {
           fontFamily: 'system-ui, sans-serif',
         }}
       >
-        {/* Breaking News Banner */}
+        {/* This Week Banner */}
         <div
           style={{
-            background: 'linear-gradient(135deg, #ffffff 0%,rgb(204, 165, 165) 100%)',
-            color: '#ee0000',
-            padding: '8px 24px',
-            borderRadius: '4px',
-            fontSize: '28px',
+            background: 'linear-gradient(45deg, #ffffff 0%, rgb(235, 223, 223) 100%)',
+            color: 'black',
+            padding: '12px 16px',
+            borderRadius: '6px',
+            fontSize: '36px',
             fontWeight: 'bold',
-            marginBottom: '40px',
+            marginBottom: '50px',
             textTransform: 'uppercase',
-            letterSpacing: '2px',
+            letterSpacing: '3px',
             display: 'flex',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            boxShadow: '0 3px 6px rgba(0,0,0,0.15)',
           }}
         >
-          BREAKING NEWS
+          THIS WEEK
         </div>
 
         {/* Main Content */}
@@ -56,52 +55,44 @@ export async function GET() {
         >
           <div
             style={{
-              fontSize: '80px',
+              fontSize: '120px',
               fontWeight: 'bold',
               marginBottom: '10px',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+              textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
               display: 'flex',
               textAlign: 'center',
             }}
           >
             {currentLeader}
           </div>
-          
-          <div
-            style={{
-              fontSize: '36px',
-              fontWeight: 'bold',
-              marginBottom: '40px',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-              display: 'flex',
-              textAlign: 'center',
-            }}
-          >
-            is leading standup this week
-          </div>
-        
 
           <div
             style={{
-              fontSize: '24px',
-              opacity: 0.8,
-              fontStyle: 'italic',
-              marginBottom: '14px',
+              fontSize: '42px',
+              fontWeight: 'bold',
+              marginBottom: '60px',
+              textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
               display: 'flex',
               textAlign: 'center',
             }}
           >
-            CNN Media Management Team
+            is leading standup.
           </div>
+
+
           <div
             style={{
-              fontSize: '16px',
-              opacity: 0.9,
+              fontSize: '30px',
+              fontStyle: 'italic',
+              marginBottom: '18px',
+              color: 'white',
               display: 'flex',
+              textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
+              fontWeight: 'bold',
               textAlign: 'center',
             }}
           >
-            Week {weekNumber} of {currentYear}
+            {thisWeekDates}
           </div>
         </div>
 

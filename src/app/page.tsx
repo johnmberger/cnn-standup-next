@@ -10,10 +10,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: `CNN Media Management - ${currentLeader} is leading this week`,
-    description: `Breaking News: ${currentLeader} is leading standup this week (Week ${weekNumber} of ${currentYear}). Next week: ${nextLeader}. CNN Team Standup Rotation.`,
+    description: `${currentLeader} is leading standup this week. Next week: ${nextLeader}. CNN Team Standup Rotation.`,
     openGraph: {
       title: `CNN Media Management - ${currentLeader} is leading this week`,
-      description: `Breaking News: ${currentLeader} is leading standup this week (Week ${weekNumber} of ${currentYear}). Next week: ${nextLeader}.`,
+      description: `${currentLeader} is leading standup this week. Next week: ${nextLeader}.`,
       type: 'website',
       siteName: 'CNN Media Management',
       images: [
@@ -28,12 +28,12 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: `CNN Media Management - ${currentLeader} is leading this week`,
-      description: `Breaking News: ${currentLeader} is leading standup this week (Week ${weekNumber} of ${currentYear}). Next week: ${nextLeader}.`,
+      description: `${currentLeader} is leading standup this week. Next week: ${nextLeader}.`,
       images: ['/api/og-image'],
     },
     other: {
       'slack:title': `CNN Media Management - ${currentLeader} is leading this week`,
-      'slack:description': `Breaking News: ${currentLeader} is leading standup this week (Week ${weekNumber} of ${currentYear}). Next week: ${nextLeader}.`,
+      'slack:description': `${currentLeader} is leading standup this week. Next week: ${nextLeader}.`,
       'slack:image': '/api/og-image',
     },
   };

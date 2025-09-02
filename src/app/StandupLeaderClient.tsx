@@ -11,10 +11,10 @@ export default function StandupLeaderClient() {
   const [currentWeekDates, setCurrentWeekDates] = useState<string>('');
   const [nextWeekDates, setNextWeekDates] = useState<string>('');
 
-    useEffect(() => {
+  useEffect(() => {
     setCurrentLeader(getCurrentStandupLeader());
     setNextLeader(getNextStandupLeader());
-    
+
     // Calculate current week dates (Monday to Friday)
     const now = new Date();
     const currentDay = now.getDay();
@@ -23,7 +23,7 @@ export default function StandupLeaderClient() {
     monday.setDate(now.getDate() + daysToMonday);
     const friday = new Date(monday);
     friday.setDate(monday.getDate() + 4);
-    
+
     const currentWorkDays = getWorkDays(monday, friday);
     if (currentWorkDays.length > 0) {
       const firstDay = currentWorkDays[0];
@@ -32,13 +32,13 @@ export default function StandupLeaderClient() {
     } else {
       setCurrentWeekDates('Holiday Week');
     }
-    
+
     // Calculate next week dates
     const nextMonday = new Date(monday);
     nextMonday.setDate(monday.getDate() + 7);
     const nextFriday = new Date(nextMonday);
     nextFriday.setDate(nextMonday.getDate() + 4);
-    
+
     const nextWorkDays = getWorkDays(nextMonday, nextFriday);
     if (nextWorkDays.length > 0) {
       const firstDay = nextWorkDays[0];
@@ -67,14 +67,14 @@ export default function StandupLeaderClient() {
               <div className="text-sm font-medium tracking-wide">
                 MEDIA MANAGEMENT TEAM
               </div>
-            </div>
-            <div className="text-xs text-red-100">
-              {new Date().toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
+              <div className="text-xs text-red-100">
+                {new Date().toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </div>
             </div>
           </div>
         </div>
