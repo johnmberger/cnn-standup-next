@@ -18,8 +18,8 @@ export async function GET() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#CC0000', // CNN Red
-          backgroundImage: 'linear-gradient(45deg, #CC0000 0%, #B30000 100%)',
+          backgroundColor: '#ee0000', // CNN Red
+          backgroundImage: 'linear-gradient(45deg, #ee0000 0%, #cc0000 100%)',
           fontFamily: 'system-ui, sans-serif',
         }}
       >
@@ -27,7 +27,7 @@ export async function GET() {
         <div
           style={{
             background: 'linear-gradient(135deg, #ffffff 0%,rgb(204, 165, 165) 100%)',
-            color: '#CC0000',
+            color: '#ee0000',
             padding: '8px 24px',
             borderRadius: '4px',
             fontSize: '28px',

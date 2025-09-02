@@ -4,7 +4,7 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
-  --cnn-red: #CC0000;
+  --cnn-red: #ee0000;
   --cnn-red-light: #FF0000;
 }
 
@@ -38,8 +38,8 @@ body {
 
 /* News ticker effect */
 @keyframes ticker {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
 
 .ticker {

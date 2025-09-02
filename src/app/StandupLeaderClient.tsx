@@ -36,9 +36,9 @@ export default function StandupLeaderClient() {
 
   return (
     <main className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="bg-white max-w-2xl w-full border-l-4 border-red-600 shadow-2xl">
+      <div className="bg-white max-w-2xl w-full border-l-4 shadow-2xl" style={{ borderLeftColor: '#ee0000' }}>
         {/* CNN Header */}
-        <div className="bg-red-600 text-white px-6 py-4">
+        <div className="text-white px-6 py-4" style={{ backgroundColor: '#ee0000' }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-5">
               <Image 
@@ -64,20 +64,32 @@ export default function StandupLeaderClient() {
           </div>
         </div>
         
+        {/* Breaking News Ticker */}
+        <div className="overflow-hidden" style={{ backgroundColor: '#ee0000' }}>
+          <div className="ticker text-white text-sm font-bold py-2 whitespace-nowrap">
+            <span className="inline-block mr-8">
+              BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS
+            </span>
+            <span className="inline-block mr-8">
+              BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS • BREAKING NEWS
+            </span>
+          </div>
+        </div>
+        
         {/* Content */}
         <div className="p-8">
           <div className="space-y-8">
             {/* Current Week Leader */}
             <div className="border-b-2 border-gray-200 pb-6">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="bg-red-600 text-white text-sm font-bold px-3 py-1 rounded-full">
+                <div className="text-white text-sm font-bold px-3 py-1 rounded-full" style={{ backgroundColor: '#ee0000' }}>
                   LIVE
                 </div>
                                   <h2 className="text-lg font-bold text-black uppercase tracking-wide">
                     This Week&apos;s Leader
                   </h2>
               </div>
-              <div className="px-6 border-l-8 border-red-600">
+              <div className="px-6 border-l-8" style={{ borderLeftColor: '#ee0000' }}>
                 <p className="text-5xl font-bold text-black leading-tight">
                   {currentLeader}
                 </p>
