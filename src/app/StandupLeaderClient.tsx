@@ -79,7 +79,7 @@ export default function StandupLeaderClient() {
   };
 
   return (
-    <main className="min-h-screen bg-black flex items-center justify-center p-4">
+    <main className="min-h-screen flex items-center justify-center p-4">
       <div 
         ref={setCardRef}
         className="bg-white max-w-2xl w-full border-l-4 shadow-2xl animate-slide-in-up card-3d-hover" 
