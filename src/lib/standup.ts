@@ -17,38 +17,84 @@ export const TEAM_MEMBERS = [
 ];
 
 export function getCurrentStandupLeader(): string {
-  // Get the current week number (0-based)
+  // Get the current week number based on Monday-to-Sunday weeks
   const now = new Date();
+  
+  // Find the Monday of the current week
+  const currentDay = now.getDay();
+  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay; // Sunday = 0, Monday = 1
+  const mondayOfThisWeek = new Date(now);
+  mondayOfThisWeek.setDate(now.getDate() + daysToMonday);
+  
+  // Find the first Monday of the year
   const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const days = Math.floor((now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000));
-  const currentWeek = Math.floor(days / 7);
+  const startDay = startOfYear.getDay();
+  const daysToFirstMonday = startDay === 0 ? 1 : 8 - startDay; // If Jan 1 is Sunday, first Monday is Jan 2
+  const firstMondayOfYear = new Date(startOfYear);
+  firstMondayOfYear.setDate(startOfYear.getDate() + daysToFirstMonday);
+  
+  // Calculate weeks since first Monday of year
+  const daysSinceFirstMonday = Math.floor((mondayOfThisWeek.getTime() - firstMondayOfYear.getTime()) / (24 * 60 * 60 * 1000));
+  const currentWeek = Math.floor(daysSinceFirstMonday / 7);
 
   // Calculate current week leader based on week number
-  // Adjusted so Allen (index 0) is the current leader (week 35, index 34)
-  // We need to offset by -34 to make Allen current: (34 - 34) % 12 = 0
+  // Adjusted so Allen (index 0) is the current leader for a specific week
+  // We need to offset by a specific week number to make Allen current
   const currentLeaderIndex = (currentWeek - 34) % TEAM_MEMBERS.length;
   return TEAM_MEMBERS[currentLeaderIndex];
 }
 
 export function getNextStandupLeader(): string {
-  // Get the current week number (0-based)
+  // Get the next week number based on Monday-to-Sunday weeks
   const now = new Date();
+  
+  // Find the Monday of next week
+  const currentDay = now.getDay();
+  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay; // Sunday = 0, Monday = 1
+  const mondayOfThisWeek = new Date(now);
+  mondayOfThisWeek.setDate(now.getDate() + daysToMonday);
+  
+  // Get Monday of next week
+  const mondayOfNextWeek = new Date(mondayOfThisWeek);
+  mondayOfNextWeek.setDate(mondayOfThisWeek.getDate() + 7);
+  
+  // Find the first Monday of the year
   const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const days = Math.floor((now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000));
-  const currentWeek = Math.floor(days / 7);
+  const startDay = startOfYear.getDay();
+  const daysToFirstMonday = startDay === 0 ? 1 : 8 - startDay; // If Jan 1 is Sunday, first Monday is Jan 2
+  const firstMondayOfYear = new Date(startOfYear);
+  firstMondayOfYear.setDate(startOfYear.getDate() + daysToFirstMonday);
+  
+  // Calculate weeks since first Monday of year for next week
+  const daysSinceFirstMonday = Math.floor((mondayOfNextWeek.getTime() - firstMondayOfYear.getTime()) / (24 * 60 * 60 * 1000));
+  const nextWeek = Math.floor(daysSinceFirstMonday / 7);
 
   // Calculate next week leader based on week number
-  // Adjusted so Allen (index 0) is the current leader (week 35, index 34)
-  // Next week would be: (34 + 1 - 34) % 12 = 1 (Brad)
-  const nextLeaderIndex = (currentWeek + 1 - 34) % TEAM_MEMBERS.length;
+  const nextLeaderIndex = (nextWeek - 34) % TEAM_MEMBERS.length;
   return TEAM_MEMBERS[nextLeaderIndex];
 }
 
 export function getCurrentWeekNumber(): number {
   const now = new Date();
+  
+  // Find the Monday of the current week
+  const currentDay = now.getDay();
+  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay; // Sunday = 0, Monday = 1
+  const mondayOfThisWeek = new Date(now);
+  mondayOfThisWeek.setDate(now.getDate() + daysToMonday);
+  
+  // Find the first Monday of the year
   const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const days = Math.floor((now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000));
-  return Math.floor(days / 7) + 1;
+  const startDay = startOfYear.getDay();
+  const daysToFirstMonday = startDay === 0 ? 1 : 8 - startDay; // If Jan 1 is Sunday, first Monday is Jan 2
+  const firstMondayOfYear = new Date(startOfYear);
+  firstMondayOfYear.setDate(startOfYear.getDate() + daysToFirstMonday);
+  
+  // Calculate weeks since first Monday of year
+  const daysSinceFirstMonday = Math.floor((mondayOfThisWeek.getTime() - firstMondayOfYear.getTime()) / (24 * 60 * 60 * 1000));
+  const currentWeek = Math.floor(daysSinceFirstMonday / 7);
+  
+  return currentWeek + 1; // Return 1-based week number
 }
 
 export function getThisWeekDates(): string {
