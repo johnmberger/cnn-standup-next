@@ -66,10 +66,10 @@ export default function NotFound() {
                         <div className="space-y-4">
                             <div className="bg-gray-50 p-4 rounded-lg">
                                 <h3 className="text-lg font-bold text-black mb-2">📺 What Our Anchors Are Saying:</h3>
-                                <p className="text-gray-700 italic">
-                                    "This is clearly a case of digital journalism gone wrong.
-                                    The page was last seen heading towards the exit during our 6 PM broadcast."
-                                </p>
+                                                                 <p className="text-gray-700 italic">
+                                     &ldquo;This is clearly a case of digital journalism gone wrong.
+                                     The page was last seen heading towards the exit during our 6 PM broadcast.&rdquo;
+                                 </p>
                                 <p className="text-sm text-gray-500 mt-2">- Anderson Cooper, probably</p>
                             </div>
                         </div>
