@@ -3,9 +3,13 @@ import { getCurrentStandupLeader, getThisWeekDates } from '@/lib/standup';
 
 export const runtime = 'edge';
 
-export async function GET() {
+export async function GET(request: Request) {
   const currentLeader = getCurrentStandupLeader();
   const thisWeekDates = getThisWeekDates();
+  
+  // Get cache buster from query params
+  const url = new URL(request.url);
+  const version = url.searchParams.get('v') || 'default';
 
   return new ImageResponse(
     (
@@ -113,6 +117,10 @@ export async function GET() {
     {
       width: 1200,
       height: 630,
+      headers: {
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600', // Cache for 1 hour
+        'ETag': `"${version}-${currentLeader}"`, // ETag based on version and leader
+      },
     }
   );
 }
