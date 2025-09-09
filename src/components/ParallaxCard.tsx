@@ -14,6 +14,12 @@ export default function ParallaxCard({ children, className = '', style = {} }: P
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef) return;
     
+    // Check if the mouse is over a button or interactive element
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'BUTTON' || target.closest('button')) {
+      return; // Don't apply parallax effect when hovering over buttons
+    }
+    
     const rect = cardRef.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;

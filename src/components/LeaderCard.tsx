@@ -5,6 +5,7 @@ interface LeaderCardProps {
   statusType: 'live' | 'up-next';
   statusText: string;
   borderColor?: string;
+  title?: string;
 }
 
 export default function LeaderCard({
@@ -13,7 +14,8 @@ export default function LeaderCard({
   description,
   statusType,
   statusText,
-  borderColor = '#ee0000'
+  borderColor = '#ee0000',
+  title
 }: LeaderCardProps) {
   return (
     <div className={statusType === 'live' ? 'border-b-2 border-gray-200 pb-6' : ''}>
@@ -32,7 +34,7 @@ export default function LeaderCard({
           <span>{statusText}</span>
         </div>
         <h2 className="text-lg font-bold text-black uppercase tracking-wide">
-          {statusType === 'live' ? "This Week's Leader" : "Next Week's Leader"}
+          {title || (statusType === 'live' ? "This Week's Leader" : "Next Week's Leader")}
         </h2>
       </div>
       <div className="px-6 border-l-8" style={{ borderLeftColor: borderColor }}>
