@@ -48,7 +48,7 @@ export default function SpinnerClient() {
             <LeaderCard
               leaderName={currentLeader}
               weekDates={currentWeekDates}
-              description="Current week's leader (out today)"
+              description="Current week&apos;s leader (out today)"
               statusType="live"
               statusText="OUT TODAY"
               borderColor="#ee0000"
@@ -84,10 +84,10 @@ export default function SpinnerClient() {
               <LeaderCard
                 leaderName={selectedLeader}
                 weekDates="Today Only"
-                description="Selected to lead today's standup"
+                description="Selected to lead today&apos;s standup"
                 statusType="up-next"
                 statusText="WINNER"
-                title="Today's Replacement Leader"
+                title="Today&apos;s Replacement Leader"
                 borderColor="black"
               />
             )}
@@ -100,7 +100,7 @@ export default function SpinnerClient() {
                 Emergency replacement • {TEAM_MEMBERS.length - 1} available members
               </div>
               <div>
-                Excluding this week's leader
+                Excluding this week&apos;s leader
               </div>
             </div>
           </div>
