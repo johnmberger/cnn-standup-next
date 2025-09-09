@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { TEAM_MEMBERS, getCurrentStandupLeader } from '@/lib/standup';
 import { getCurrentWeekDates } from '@/lib/dateUtils';
 import { CNNHeader, NewsTicker, LeaderCard, SlotMachineSpinner } from '@/components';
@@ -106,6 +107,20 @@ export default function SpinnerClient() {
           </div>
         </div>
       </div>
+      
+      {/* Floating Home Button */}
+      <Link 
+        href="/" 
+        className="fixed bottom-6 right-6 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white p-3 sm:p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 z-50 w-12 h-12 sm:w-auto sm:h-auto"
+        title="Back to Main Page"
+      >
+        <div className="flex items-center justify-center w-full h-full">
+          <svg className="w-6 h-6 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span className="text-sm font-bold hidden sm:inline ml-2">HOME</span>
+        </div>
+      </Link>
     </main>
   );
 }
