@@ -9,10 +9,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const cacheBuster = `w${weekNumber}-${new Date().getFullYear()}`;
 
   return {
-    description: `${currentLeader} is leading standup this week. Next week: ${nextLeader}. CNN Team Standup Rotation.`,
     openGraph: {
       title: `CNN Media Management Team`,
-      description: `${currentLeader} is leading standup this week. Next week: ${nextLeader}.`,
       type: 'website',
       siteName: 'CNN Media Management',
       images: [
@@ -27,15 +25,12 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: `CNN Media Management`,
-      description: `${currentLeader} is leading standup this week. Next week: ${nextLeader}.`,
       images: [`/api/og-image?v=${cacheBuster}`],
     },
     other: {
       'cache-control': 'no-cache, no-store, must-revalidate',
       'pragma': 'no-cache',
       'expires': '0',
-      'slack:title': `CNN Media Management - ${currentLeader} is leading standup this week`,
-      'slack:description': `Next week: ${nextLeader}.`,
       'slack:image': `/api/og-image?v=${cacheBuster}`,
     },
   };
