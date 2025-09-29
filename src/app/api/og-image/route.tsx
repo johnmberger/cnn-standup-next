@@ -99,19 +99,6 @@ export async function GET(request: Request) {
             {thisWeekDates}
           </div>
         </div>
-
-        {/* Bottom accent */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '0',
-            left: '0',
-            right: '0',
-            height: '8px',
-            backgroundColor: 'white',
-            display: 'flex',
-          }}
-        />
       </div>
     ),
     {
