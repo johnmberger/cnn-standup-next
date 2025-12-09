@@ -11,9 +11,10 @@ A Next.js application that displays and manages standup leader rotation for the 
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 with App Router
-- **Styling**: Tailwind CSS
-- **TypeScript**: Full type safety
+- **Framework**: Next.js 15.5.7 with App Router
+- **React**: 19.1.0
+- **Styling**: Tailwind CSS v4
+- **TypeScript**: 5.x
 - **Deployment**: Vercel-ready
 - **Images**: next/og for dynamic Open Graph image generation
 
@@ -21,7 +22,7 @@ A Next.js application that displays and manages standup leader rotation for the 
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18.18.0 or higher
 - npm or yarn
 
 ### Local Development
