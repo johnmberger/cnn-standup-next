@@ -26,6 +26,16 @@ export function getCurrentStandupLeader(): string {
   const mondayOfThisWeek = new Date(now);
   mondayOfThisWeek.setDate(now.getDate() + daysToMonday);
   
+  // Check if there are any work days this week (Monday to Friday)
+  const fridayOfThisWeek = new Date(mondayOfThisWeek);
+  fridayOfThisWeek.setDate(mondayOfThisWeek.getDate() + 4);
+  const workDays = getWorkDays(mondayOfThisWeek, fridayOfThisWeek);
+  
+  // If no work days, return empty string (holiday week)
+  if (workDays.length === 0) {
+    return '';
+  }
+  
   // Find the first Monday of the year
   const startOfYear = new Date(now.getFullYear(), 0, 1);
   const startDay = startOfYear.getDay();
@@ -57,6 +67,16 @@ export function getNextStandupLeader(): string {
   // Get Monday of next week
   const mondayOfNextWeek = new Date(mondayOfThisWeek);
   mondayOfNextWeek.setDate(mondayOfThisWeek.getDate() + 7);
+  
+  // Check if there are any work days next week (Monday to Friday)
+  const fridayOfNextWeek = new Date(mondayOfNextWeek);
+  fridayOfNextWeek.setDate(mondayOfNextWeek.getDate() + 4);
+  const workDays = getWorkDays(mondayOfNextWeek, fridayOfNextWeek);
+  
+  // If no work days, return empty string (holiday week)
+  if (workDays.length === 0) {
+    return '';
+  }
   
   // Find the first Monday of the year
   const startOfYear = new Date(now.getFullYear(), 0, 1);

@@ -57,32 +57,48 @@ export async function GET(request: Request) {
             padding: '0 40px',
           }}
         >
-          <div
-            style={{
-              fontSize: '120px',
-              fontWeight: 'bold',
-              marginBottom: '10px',
-              textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
-              display: 'flex',
-              textAlign: 'center',
-            }}
-          >
-            {currentLeader}
-          </div>
+          {currentLeader ? (
+            <>
+              <div
+                style={{
+                  fontSize: '120px',
+                  fontWeight: 'bold',
+                  marginBottom: '10px',
+                  textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
+                  display: 'flex',
+                  textAlign: 'center',
+                }}
+              >
+                {currentLeader}
+              </div>
 
-          <div
-            style={{
-              fontSize: '42px',
-              fontWeight: 'bold',
-              marginBottom: '60px',
-              textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
-              display: 'flex',
-              textAlign: 'center',
-            }}
-          >
-            is leading standup.
-          </div>
-
+              <div
+                style={{
+                  fontSize: '42px',
+                  fontWeight: 'bold',
+                  marginBottom: '60px',
+                  textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
+                  display: 'flex',
+                  textAlign: 'center',
+                }}
+              >
+                is leading standup.
+              </div>
+            </>
+          ) : (
+            <div
+              style={{
+                fontSize: '100px',
+                fontWeight: 'bold',
+                marginBottom: '60px',
+                textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
+                display: 'flex',
+                textAlign: 'center',
+              }}
+            >
+              No standup this week
+            </div>
+          )}
 
           <div
             style={{

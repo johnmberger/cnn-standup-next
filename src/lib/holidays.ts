@@ -19,6 +19,19 @@ export const holidays2025 = [
 export const holidays2026 = [
   new Date(2026, 0, 1),   // New Year's Day - Thursday, Jan 1
   new Date(2026, 0, 2),   // Day After New Year's - Friday, Jan 2
+  new Date(2026, 0, 19),  // Martin Luther King Jr. Day - Monday, Jan 19
+  new Date(2026, 1, 16),  // Presidents' Day - Monday, Feb 16
+  new Date(2026, 4, 25),  // Memorial Day - Monday, May 25
+  new Date(2026, 5, 19),  // Juneteenth - Friday, June 19
+  new Date(2026, 6, 3),   // Independence Day - Friday, July 3
+  new Date(2026, 8, 7),   // Labor Day - Monday, Sept 7
+  new Date(2026, 10, 26), // Thanksgiving Day - Thursday, Nov 26
+  new Date(2026, 10, 27), // Day After Thanksgiving - Friday, Nov 27
+  new Date(2026, 11, 25), // Christmas Day - Friday, Dec 25
+  new Date(2026, 11, 28), // Year-End Break - Monday, Dec 28
+  new Date(2026, 11, 29), // Year-End Break - Tuesday, Dec 29
+  new Date(2026, 11, 30), // Year-End Break - Wednesday, Dec 30
+  new Date(2026, 11, 31), // Year-End Break - Thursday, Dec 31
 ];
 
 // Combined holidays for all years
