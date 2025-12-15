@@ -51,6 +51,7 @@ export async function GET(request: Request) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            justifyContent: 'center',
             textAlign: 'center',
             color: 'white',
             maxWidth: '800px',
@@ -58,15 +59,25 @@ export async function GET(request: Request) {
           }}
         >
           {currentLeader ? (
-            <>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
               <div
                 style={{
                   fontSize: '120px',
                   fontWeight: 'bold',
-                  marginBottom: '10px',
+                  marginBottom: '30px',
                   textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
-                  display: 'flex',
                   textAlign: 'center',
+                  width: '100%',
+                  wordWrap: 'break-word',
+                  lineHeight: '1.1',
+                  whiteSpace: 'normal',
                 }}
               >
                 {currentLeader}
@@ -78,13 +89,14 @@ export async function GET(request: Request) {
                   fontWeight: 'bold',
                   marginBottom: '60px',
                   textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
-                  display: 'flex',
                   textAlign: 'center',
+                  width: '100%',
+                  whiteSpace: 'normal',
                 }}
               >
-                is leading standup.
+                is leading standup this week.
               </div>
-            </>
+            </div>
           ) : (
             <div
               style={{
@@ -92,8 +104,9 @@ export async function GET(request: Request) {
                 fontWeight: 'bold',
                 marginBottom: '60px',
                 textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
-                display: 'flex',
                 textAlign: 'center',
+                width: '100%',
+                whiteSpace: 'normal',
               }}
             >
               No standup this week
@@ -106,10 +119,10 @@ export async function GET(request: Request) {
               fontStyle: 'italic',
               marginBottom: '18px',
               color: 'white',
-              display: 'flex',
               textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
               fontWeight: 'bold',
               textAlign: 'center',
+              width: '100%',
             }}
           >
             {thisWeekDates}
