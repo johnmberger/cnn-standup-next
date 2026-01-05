@@ -1,4 +1,5 @@
 import { getWorkDays } from './holidays';
+import { getDateComponentsInEST, getDayOfWeekInEST } from './dateUtils';
 
 // Dummy list of 10 people
 export const TEAM_MEMBERS = [
@@ -17,18 +18,18 @@ export const TEAM_MEMBERS = [
 ];
 
 export function getCurrentStandupLeader(): string {
-  // Get the current week number based on Monday-to-Sunday weeks
-  const now = new Date();
+  // Get the current week number based on Monday-to-Sunday weeks in EST
+  const { year, month, day, dayOfWeek } = getDateComponentsInEST();
   
-  // Find the Monday of the current week
-  const currentDay = now.getDay();
-  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay; // Sunday = 0, Monday = 1
-  const mondayOfThisWeek = new Date(now);
-  mondayOfThisWeek.setDate(now.getDate() + daysToMonday);
+  // Find the Monday of the current week in EST
+  const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Sunday = 0, Monday = 1
+  const mondayOfThisWeek = new Date(year, month, day + daysToMonday);
+  mondayOfThisWeek.setHours(0, 0, 0, 0);
   
   // Check if there are any work days this week (Monday to Friday)
   const fridayOfThisWeek = new Date(mondayOfThisWeek);
   fridayOfThisWeek.setDate(mondayOfThisWeek.getDate() + 4);
+  fridayOfThisWeek.setHours(23, 59, 59, 999);
   const workDays = getWorkDays(mondayOfThisWeek, fridayOfThisWeek);
   
   // If no work days, return empty string (holiday week)
@@ -36,12 +37,13 @@ export function getCurrentStandupLeader(): string {
     return '';
   }
   
-  // Find the first Monday of the year
-  const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const startDay = startOfYear.getDay();
+  // Find the first Monday of the year in EST
+  const startOfYear = new Date(year, 0, 1);
+  startOfYear.setHours(0, 0, 0, 0);
+  const startDay = getDayOfWeekInEST(startOfYear);
   const daysToFirstMonday = startDay === 0 ? 1 : 8 - startDay; // If Jan 1 is Sunday, first Monday is Jan 2
-  const firstMondayOfYear = new Date(startOfYear);
-  firstMondayOfYear.setDate(startOfYear.getDate() + daysToFirstMonday);
+  const firstMondayOfYear = new Date(year, 0, 1 + daysToFirstMonday);
+  firstMondayOfYear.setHours(0, 0, 0, 0);
   
   // Calculate weeks since first Monday of year
   const daysSinceFirstMonday = Math.floor((mondayOfThisWeek.getTime() - firstMondayOfYear.getTime()) / (24 * 60 * 60 * 1000));
@@ -55,14 +57,13 @@ export function getCurrentStandupLeader(): string {
 }
 
 export function getNextStandupLeader(): string {
-  // Get the next week number based on Monday-to-Sunday weeks
-  const now = new Date();
+  // Get the next week number based on Monday-to-Sunday weeks in EST
+  const { year, month, day, dayOfWeek } = getDateComponentsInEST();
   
-  // Find the Monday of next week
-  const currentDay = now.getDay();
-  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay; // Sunday = 0, Monday = 1
-  const mondayOfThisWeek = new Date(now);
-  mondayOfThisWeek.setDate(now.getDate() + daysToMonday);
+  // Find the Monday of current week in EST
+  const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Sunday = 0, Monday = 1
+  const mondayOfThisWeek = new Date(year, month, day + daysToMonday);
+  mondayOfThisWeek.setHours(0, 0, 0, 0);
   
   // Get Monday of next week
   const mondayOfNextWeek = new Date(mondayOfThisWeek);
@@ -71,6 +72,7 @@ export function getNextStandupLeader(): string {
   // Check if there are any work days next week (Monday to Friday)
   const fridayOfNextWeek = new Date(mondayOfNextWeek);
   fridayOfNextWeek.setDate(mondayOfNextWeek.getDate() + 4);
+  fridayOfNextWeek.setHours(23, 59, 59, 999);
   const workDays = getWorkDays(mondayOfNextWeek, fridayOfNextWeek);
   
   // If no work days, return empty string (holiday week)
@@ -78,12 +80,13 @@ export function getNextStandupLeader(): string {
     return '';
   }
   
-  // Find the first Monday of the year
-  const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const startDay = startOfYear.getDay();
+  // Find the first Monday of the year in EST
+  const startOfYear = new Date(year, 0, 1);
+  startOfYear.setHours(0, 0, 0, 0);
+  const startDay = getDayOfWeekInEST(startOfYear);
   const daysToFirstMonday = startDay === 0 ? 1 : 8 - startDay; // If Jan 1 is Sunday, first Monday is Jan 2
-  const firstMondayOfYear = new Date(startOfYear);
-  firstMondayOfYear.setDate(startOfYear.getDate() + daysToFirstMonday);
+  const firstMondayOfYear = new Date(year, 0, 1 + daysToFirstMonday);
+  firstMondayOfYear.setHours(0, 0, 0, 0);
   
   // Calculate weeks since first Monday of year for next week
   const daysSinceFirstMonday = Math.floor((mondayOfNextWeek.getTime() - firstMondayOfYear.getTime()) / (24 * 60 * 60 * 1000));
@@ -95,20 +98,21 @@ export function getNextStandupLeader(): string {
 }
 
 export function getCurrentWeekNumber(): number {
-  const now = new Date();
+  // Get the current week number based on Monday-to-Sunday weeks in EST
+  const { year, month, day, dayOfWeek } = getDateComponentsInEST();
   
-  // Find the Monday of the current week
-  const currentDay = now.getDay();
-  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay; // Sunday = 0, Monday = 1
-  const mondayOfThisWeek = new Date(now);
-  mondayOfThisWeek.setDate(now.getDate() + daysToMonday);
+  // Find the Monday of the current week in EST
+  const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Sunday = 0, Monday = 1
+  const mondayOfThisWeek = new Date(year, month, day + daysToMonday);
+  mondayOfThisWeek.setHours(0, 0, 0, 0);
   
-  // Find the first Monday of the year
-  const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const startDay = startOfYear.getDay();
+  // Find the first Monday of the year in EST
+  const startOfYear = new Date(year, 0, 1);
+  startOfYear.setHours(0, 0, 0, 0);
+  const startDay = getDayOfWeekInEST(startOfYear);
   const daysToFirstMonday = startDay === 0 ? 1 : 8 - startDay; // If Jan 1 is Sunday, first Monday is Jan 2
-  const firstMondayOfYear = new Date(startOfYear);
-  firstMondayOfYear.setDate(startOfYear.getDate() + daysToFirstMonday);
+  const firstMondayOfYear = new Date(year, 0, 1 + daysToFirstMonday);
+  firstMondayOfYear.setHours(0, 0, 0, 0);
   
   // Calculate weeks since first Monday of year
   const daysSinceFirstMonday = Math.floor((mondayOfThisWeek.getTime() - firstMondayOfYear.getTime()) / (24 * 60 * 60 * 1000));
@@ -118,44 +122,46 @@ export function getCurrentWeekNumber(): number {
 }
 
 export function getThisWeekDates(): string {
-  // Calculate current week dates (Monday to Friday)
-  const now = new Date();
-  const currentDay = now.getDay();
-  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay; // Sunday = 0, Monday = 1
-  const monday = new Date(now);
-  monday.setDate(now.getDate() + daysToMonday);
+  // Calculate current week dates (Monday to Friday) in EST
+  const { year, month, day, dayOfWeek } = getDateComponentsInEST();
+  
+  const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Sunday = 0, Monday = 1
+  const monday = new Date(year, month, day + daysToMonday);
+  monday.setHours(0, 0, 0, 0);
   const friday = new Date(monday);
   friday.setDate(monday.getDate() + 4);
+  friday.setHours(23, 59, 59, 999);
 
   const currentWorkDays = getWorkDays(monday, friday);
   if (currentWorkDays.length > 0) {
     const firstDay = currentWorkDays[0];
     const lastDay = currentWorkDays[currentWorkDays.length - 1];
-    return `${firstDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} - ${lastDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+    return `${firstDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York' })} - ${lastDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York' })}`;
   } else {
     return 'Holiday Week';
   }
 }
 
 export function getNextWeekDates(): string {
-  // Calculate next week dates (Monday to Friday)
-  const now = new Date();
-  const currentDay = now.getDay();
-  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay; // Sunday = 0, Monday = 1
-  const monday = new Date(now);
-  monday.setDate(now.getDate() + daysToMonday);
+  // Calculate next week dates (Monday to Friday) in EST
+  const { year, month, day, dayOfWeek } = getDateComponentsInEST();
+  
+  const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Sunday = 0, Monday = 1
+  const monday = new Date(year, month, day + daysToMonday);
+  monday.setHours(0, 0, 0, 0);
   
   // Calculate next week dates
   const nextMonday = new Date(monday);
   nextMonday.setDate(monday.getDate() + 7);
   const nextFriday = new Date(nextMonday);
   nextFriday.setDate(nextMonday.getDate() + 4);
+  nextFriday.setHours(23, 59, 59, 999);
 
   const nextWorkDays = getWorkDays(nextMonday, nextFriday);
   if (nextWorkDays.length > 0) {
     const firstDay = nextWorkDays[0];
     const lastDay = nextWorkDays[nextWorkDays.length - 1];
-    return `${firstDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} - ${lastDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+    return `${firstDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York' })} - ${lastDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York' })}`;
   } else {
     return 'Holiday Week';
   }
