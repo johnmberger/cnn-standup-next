@@ -38,31 +38,15 @@ export default function LeaderCard({
         </h2>
       </div>
       <div className="px-6 border-l-8" style={{ borderLeftColor: borderColor }}>
-        {leaderName ? (
-          <>
-            <p className="text-5xl font-bold text-black leading-tight">
-              {leaderName}
-            </p>
-            <p className="text-sm text-gray-600 mt-1">
-              {weekDates}
-            </p>
-            <p className="text-sm text-gray-600 mt-2">
-              {description}
-            </p>
-          </>
-        ) : (
-          <>
-            <p className="text-5xl font-bold text-black leading-tight">
-              No standup this week
-            </p>
-            <p className="text-sm text-gray-600 mt-1">
-              {weekDates}
-            </p>
-            <p className="text-sm text-gray-600 mt-2">
-              Holiday week - no standup scheduled
-            </p>
-          </>
-        )}
+        <p className="text-5xl font-bold text-black leading-tight">
+          {leaderName}
+        </p>
+        <p className="text-sm text-gray-600 mt-1">
+          {weekDates}
+        </p>
+        <p className="text-sm text-gray-600 mt-2">
+          {description}
+        </p>
       </div>
     </div>
   );

@@ -46,25 +46,37 @@ export const allHolidays = [...holidays2025, ...holidays2026];
 
 // Function to check if a date is a holiday
 export const isHoliday = (date: Date): boolean => {
-  // Normalize the input date to midnight for comparison
-  const normalizedDate = new Date(date);
-  normalizedDate.setHours(0, 0, 0, 0);
+  // Compare by year, month, and day components to avoid timezone issues
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
   
   return allHolidays.some(holiday => {
-    const normalizedHoliday = new Date(holiday);
-    normalizedHoliday.setHours(0, 0, 0, 0);
-    return normalizedDate.getTime() === normalizedHoliday.getTime();
+    return holiday.getFullYear() === year &&
+           holiday.getMonth() === month &&
+           holiday.getDate() === day;
   });
 };
 
 // Function to get work days between two dates (excluding holidays and weekends)
 export const getWorkDays = (startDate: Date, endDate: Date): Date[] => {
   const workDays: Date[] = [];
+  
+  // Ensure we have valid Date objects
+  if (!(startDate instanceof Date) || !(endDate instanceof Date)) {
+    return workDays;
+  }
+  
   const current = new Date(startDate);
   current.setHours(0, 0, 0, 0);
   
   const end = new Date(endDate);
   end.setHours(0, 0, 0, 0);
+  
+  // Ensure end is after start
+  if (end < current) {
+    return workDays;
+  }
   
   // Iterate through each day
   while (current <= end) {

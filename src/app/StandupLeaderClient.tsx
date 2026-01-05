@@ -11,11 +11,14 @@ export default function StandupLeaderClient() {
   const [nextLeader, setNextLeader] = useState<string>('');
   const [currentWeekDates, setCurrentWeekDates] = useState<string>('');
   const [nextWeekDates, setNextWeekDates] = useState<string>('');
+  const [weekNumber, setWeekNumber] = useState<number>(1);
+  
   useEffect(() => {
     setCurrentLeader(getCurrentStandupLeader());
     setNextLeader(getNextStandupLeader());
     setCurrentWeekDates(getCurrentWeekDates());
     setNextWeekDates(getNextWeekDates());
+    setWeekNumber(getCurrentWeekNumber());
   }, []);
 
   return (
@@ -29,7 +32,7 @@ export default function StandupLeaderClient() {
             <LeaderCard
               leaderName={currentLeader}
               weekDates={currentWeekDates}
-              description={currentLeader ? "Leading this week's standup" : "Holiday week - no standup scheduled"}
+              description="Leading this week's standup"
               statusType="live"
               statusText="LIVE"
               borderColor="#ee0000"
@@ -38,7 +41,7 @@ export default function StandupLeaderClient() {
             <LeaderCard
               leaderName={nextLeader}
               weekDates={nextWeekDates}
-              description={nextLeader ? "Preparing for next week's rotation" : "Holiday week - no standup scheduled"}
+              description="Preparing for next week's rotation"
               statusType="up-next"
               statusText="UP NEXT"
               borderColor="black"
@@ -52,7 +55,7 @@ export default function StandupLeaderClient() {
                 Standup rotation • {TEAM_MEMBERS.length} members
               </div>
               <div>
-                Week {getCurrentWeekNumber()} of 52
+                Week {weekNumber} of 52
               </div>
             </div>
           </div>
