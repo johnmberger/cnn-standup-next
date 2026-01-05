@@ -44,26 +44,58 @@ export const holidays2026 = [
 // Combined holidays for all years
 export const allHolidays = [...holidays2025, ...holidays2026];
 
-// Function to check if a date is a holiday
+// Helper function to get date components in EST
+function getDateComponentsInEST(date: Date): { year: number; month: number; day: number } {
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  });
+  const parts = formatter.formatToParts(date);
+  return {
+    year: parseInt(parts.find(p => p.type === 'year')!.value),
+    month: parseInt(parts.find(p => p.type === 'month')!.value) - 1, // 0-indexed
+    day: parseInt(parts.find(p => p.type === 'day')!.value),
+  };
+}
+
+// Function to check if a date is a holiday (checking in EST timezone)
 export const isHoliday = (date: Date): boolean => {
+  const estComponents = getDateComponentsInEST(date);
   return allHolidays.some(holiday => 
-    holiday.getDate() === date.getDate() && 
-    holiday.getMonth() === date.getMonth() &&
-    holiday.getFullYear() === date.getFullYear()
+    holiday.getDate() === estComponents.day && 
+    holiday.getMonth() === estComponents.month &&
+    holiday.getFullYear() === estComponents.year
   );
 };
 
+// Helper function to get day of week in EST for a date
+function getDayOfWeekInEST(date: Date): number {
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    weekday: 'short',
+  });
+  const weekdayStr = formatter.formatToParts(date).find(p => p.type === 'weekday')!.value;
+  const weekdayMap: { [key: string]: number } = {
+    'Sun': 0, 'Mon': 1, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6
+  };
+  return weekdayMap[weekdayStr];
+}
+
 // Function to get work days between two dates (excluding holidays and weekends)
+// All date checks are done in EST timezone
 export const getWorkDays = (startDate: Date, endDate: Date): Date[] => {
   const workDays: Date[] = [];
   const current = new Date(startDate);
   // Normalize to midnight to avoid time component issues
   current.setHours(0, 0, 0, 0);
   const end = new Date(endDate);
-  end.setHours(0, 0, 0, 0);
+  end.setHours(23, 59, 59, 999); // Include the full end date
   
   while (current <= end) {
-    const dayOfWeek = current.getDay();
+    // Check day of week in EST, not local timezone
+    const dayOfWeek = getDayOfWeekInEST(current);
     // Only include weekdays (Monday = 1, Friday = 5)
     if (dayOfWeek >= 1 && dayOfWeek <= 5 && !isHoliday(current)) {
       workDays.push(new Date(current));
