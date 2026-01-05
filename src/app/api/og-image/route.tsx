@@ -58,33 +58,49 @@ export async function GET(request: Request) {
             padding: '0 40px',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
+          {currentLeader ? (
             <div
               style={{
-                fontSize: '120px',
-                fontWeight: 'bold',
-                marginBottom: '30px',
-                textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
-                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
                 width: '100%',
-                wordWrap: 'break-word',
-                lineHeight: '1.1',
-                whiteSpace: 'normal',
               }}
             >
-              {currentLeader}
-            </div>
+              <div
+                style={{
+                  fontSize: '120px',
+                  fontWeight: 'bold',
+                  marginBottom: '30px',
+                  textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
+                  textAlign: 'center',
+                  width: '100%',
+                  wordWrap: 'break-word',
+                  lineHeight: '1.1',
+                  whiteSpace: 'normal',
+                }}
+              >
+                {currentLeader}
+              </div>
 
+              <div
+                style={{
+                  fontSize: '42px',
+                  fontWeight: 'bold',
+                  marginBottom: '60px',
+                  textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
+                  textAlign: 'center',
+                  width: '100%',
+                  whiteSpace: 'normal',
+                }}
+              >
+                is leading standup this week.
+              </div>
+            </div>
+          ) : (
             <div
               style={{
-                fontSize: '42px',
+                fontSize: '100px',
                 fontWeight: 'bold',
                 marginBottom: '60px',
                 textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
@@ -93,9 +109,9 @@ export async function GET(request: Request) {
                 whiteSpace: 'normal',
               }}
             >
-              is leading standup this week.
+              No standup this week
             </div>
-          </div>
+          )}
 
           <div
             style={{

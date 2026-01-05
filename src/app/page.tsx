@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: `/api/og-image?v=${cacheBuster}`,
           width: 1200,
           height: 630,
-          alt: `${currentLeader} is leading standup this week`,
+          alt: currentLeader ? `${currentLeader} is leading standup this week` : 'No standup this week',
         },
       ],
     },

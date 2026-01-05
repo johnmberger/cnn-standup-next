@@ -1,3 +1,4 @@
+import { getWorkDays } from './holidays';
 
 // Dummy list of 10 people
 export const TEAM_MEMBERS = [
@@ -27,6 +28,17 @@ export function getCurrentStandupLeader(): string {
   const mondayOfThisWeek = new Date(now);
   mondayOfThisWeek.setDate(now.getDate() + daysToMonday);
   mondayOfThisWeek.setHours(0, 0, 0, 0);
+  
+  // Check if there are any work days this week (Monday to Friday)
+  const fridayOfThisWeek = new Date(mondayOfThisWeek);
+  fridayOfThisWeek.setDate(mondayOfThisWeek.getDate() + 4);
+  fridayOfThisWeek.setHours(0, 0, 0, 0);
+  const workDays = getWorkDays(mondayOfThisWeek, fridayOfThisWeek);
+  
+  // If no work days, return empty string (holiday week)
+  if (workDays.length === 0) {
+    return '';
+  }
   
   // Find the first Monday of the year
   const startOfYear = new Date(now.getFullYear(), 0, 1);
@@ -63,6 +75,17 @@ export function getNextStandupLeader(): string {
   // Get Monday of next week (7 days after current Monday)
   const mondayOfNextWeek = new Date(mondayOfThisWeek);
   mondayOfNextWeek.setDate(mondayOfThisWeek.getDate() + 7);
+  
+  // Check if there are any work days next week (Monday to Friday)
+  const fridayOfNextWeek = new Date(mondayOfNextWeek);
+  fridayOfNextWeek.setDate(mondayOfNextWeek.getDate() + 4);
+  fridayOfNextWeek.setHours(0, 0, 0, 0);
+  const workDays = getWorkDays(mondayOfNextWeek, fridayOfNextWeek);
+  
+  // If no work days, return empty string (holiday week)
+  if (workDays.length === 0) {
+    return '';
+  }
   
   // Find the first Monday of the year
   const startOfYear = new Date(now.getFullYear(), 0, 1);
@@ -123,7 +146,14 @@ export function getThisWeekDates(): string {
   friday.setDate(monday.getDate() + 4);
   friday.setHours(0, 0, 0, 0);
 
-  return `${monday.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} - ${friday.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+  const workDays = getWorkDays(monday, friday);
+  if (workDays.length > 0) {
+    const firstDay = workDays[0];
+    const lastDay = workDays[workDays.length - 1];
+    return `${firstDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} - ${lastDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+  } else {
+    return 'Holiday Week';
+  }
 }
 
 export function getNextWeekDates(): string {
@@ -146,5 +176,12 @@ export function getNextWeekDates(): string {
   nextFriday.setDate(nextMonday.getDate() + 4);
   nextFriday.setHours(0, 0, 0, 0);
 
-  return `${nextMonday.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} - ${nextFriday.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+  const workDays = getWorkDays(nextMonday, nextFriday);
+  if (workDays.length > 0) {
+    const firstDay = workDays[0];
+    const lastDay = workDays[workDays.length - 1];
+    return `${firstDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} - ${lastDay.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+  } else {
+    return 'Holiday Week';
+  }
 }

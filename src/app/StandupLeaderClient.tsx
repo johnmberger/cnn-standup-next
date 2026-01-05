@@ -32,7 +32,7 @@ export default function StandupLeaderClient() {
             <LeaderCard
               leaderName={currentLeader}
               weekDates={currentWeekDates}
-              description="Leading this week's standup"
+              description={currentLeader ? "Leading this week's standup" : "Holiday week - no standup scheduled"}
               statusType="live"
               statusText="LIVE"
               borderColor="#ee0000"
@@ -41,7 +41,7 @@ export default function StandupLeaderClient() {
             <LeaderCard
               leaderName={nextLeader}
               weekDates={nextWeekDates}
-              description="Preparing for next week's rotation"
+              description={nextLeader ? "Preparing for next week's rotation" : "Holiday week - no standup scheduled"}
               statusType="up-next"
               statusText="UP NEXT"
               borderColor="black"
