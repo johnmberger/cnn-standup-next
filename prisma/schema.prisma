@@ -1,0 +1,44 @@
+// Prisma schema for standup leader application
+// Run `npx prisma generate` after making changes
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model TeamMember {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(100)
+  email     String?  @db.VarChar(255)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  assignments StandupAssignment[]
+  
+  @@map("team_members")
+}
+
+model StandupAssignment {
+  id            Int      @id @default(autoincrement())
+  weekNumber    Int      @map("week_number")
+  year          Int
+  mondayDate    DateTime @map("monday_date") @db.Date
+  teamMemberId Int      @map("team_member_id")
+  isOverride    Boolean  @default(false) @map("is_override")
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  
+  teamMember TeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+  
+  @@unique([weekNumber, year])
+  @@index([year, weekNumber], name: "idx_standup_assignments_date")
+  @@index([mondayDate], name: "idx_standup_assignments_monday")
+  @@index([teamMemberId], name: "idx_standup_assignments_member")
+  @@map("standup_assignments")
+}
