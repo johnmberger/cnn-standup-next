@@ -11,6 +11,7 @@ export const TEAM_MEMBERS = [
   "John",
   "Graham",
   "Michael",
+  "Kenny",
   "David",
   "Liz",
   "Marc",
