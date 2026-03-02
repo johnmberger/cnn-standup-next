@@ -76,6 +76,7 @@ export function getNextStandupLeader(): string {
   // Get Monday of next week (7 days after current Monday)
   const mondayOfNextWeek = new Date(mondayOfThisWeek);
   mondayOfNextWeek.setDate(mondayOfThisWeek.getDate() + 7);
+  mondayOfNextWeek.setHours(0, 0, 0, 0);
   
   // Check if there are any work days next week (Monday to Friday)
   const fridayOfNextWeek = new Date(mondayOfNextWeek);
@@ -88,16 +89,19 @@ export function getNextStandupLeader(): string {
     return '';
   }
   
-  // Find the first Monday of the year
+  // Calculate current week number first (reusing the same logic)
   const startOfYear = new Date(now.getFullYear(), 0, 1);
   startOfYear.setHours(0, 0, 0, 0);
   const startDay = startOfYear.getDay();
   const daysToFirstMonday = startDay === 0 ? 1 : 8 - startDay; // If Jan 1 is Sunday, first Monday is Jan 2
   const firstMondayOfYear = new Date(now.getFullYear(), 0, 1 + daysToFirstMonday, 0, 0, 0, 0);
   
-  // Calculate weeks since first Monday of year for next week
-  const daysSinceFirstMonday = Math.floor((mondayOfNextWeek.getTime() - firstMondayOfYear.getTime()) / (24 * 60 * 60 * 1000));
-  const nextWeek = Math.floor(daysSinceFirstMonday / 7);
+  // Calculate current week number
+  const daysSinceFirstMonday = Math.floor((mondayOfThisWeek.getTime() - firstMondayOfYear.getTime()) / (24 * 60 * 60 * 1000));
+  const currentWeek = Math.floor(daysSinceFirstMonday / 7);
+  
+  // Next week is simply current week + 1
+  const nextWeek = currentWeek + 1;
 
   // Calculate next week leader based on week number
   // Use ((n % m) + m) % m to handle negative numbers correctly
