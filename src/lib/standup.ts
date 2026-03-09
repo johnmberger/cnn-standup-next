@@ -53,10 +53,10 @@ export function getCurrentStandupLeader(): string {
   const currentWeek = Math.floor(daysSinceFirstMonday / 7);
 
   // Calculate current week leader based on week number
-  // Adjusted so Allen (index 0) is the current leader for a specific week
-  // We need to offset by a specific week number to make Allen current
+  // Adjusted so Brad (index 1) is the current leader for week 8
+  // We need to offset by a specific week number to align the rotation
   // Use ((n % m) + m) % m to handle negative numbers correctly
-  const currentLeaderIndex = ((currentWeek - 34) % TEAM_MEMBERS.length + TEAM_MEMBERS.length) % TEAM_MEMBERS.length;
+  const currentLeaderIndex = ((currentWeek - 33) % TEAM_MEMBERS.length + TEAM_MEMBERS.length) % TEAM_MEMBERS.length;
   return TEAM_MEMBERS[currentLeaderIndex];
 }
 
@@ -105,7 +105,7 @@ export function getNextStandupLeader(): string {
 
   // Calculate next week leader based on week number
   // Use ((n % m) + m) % m to handle negative numbers correctly
-  const nextLeaderIndex = ((nextWeek - 34) % TEAM_MEMBERS.length + TEAM_MEMBERS.length) % TEAM_MEMBERS.length;
+  const nextLeaderIndex = ((nextWeek - 33) % TEAM_MEMBERS.length + TEAM_MEMBERS.length) % TEAM_MEMBERS.length;
   return TEAM_MEMBERS[nextLeaderIndex];
 }
 
