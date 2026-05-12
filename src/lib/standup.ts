@@ -33,7 +33,6 @@ export const TEAM_MEMBERS = [
   "Michael",
   "Kenny",
   "David",
-  "Liz",
   "Marc",
 ];
 
@@ -68,7 +67,7 @@ export function getCurrentStandupLeader(): string {
   // Calculate current week leader based on week number
   // Adjusted so Brad (index 1) is the current leader for week 8
   // Use ((n % m) + m) % m to handle negative numbers correctly
-  const currentLeaderIndex = ((currentWeek - 33) % TEAM_MEMBERS.length + TEAM_MEMBERS.length) % TEAM_MEMBERS.length;
+  const currentLeaderIndex = ((currentWeek - 15) % TEAM_MEMBERS.length + TEAM_MEMBERS.length) % TEAM_MEMBERS.length;
   return TEAM_MEMBERS[currentLeaderIndex];
 }
 
@@ -108,7 +107,7 @@ export function getNextStandupLeader(): string {
 
   // Calculate next week leader based on week number
   // Use ((n % m) + m) % m to handle negative numbers correctly
-  const nextLeaderIndex = ((nextWeek - 33) % TEAM_MEMBERS.length + TEAM_MEMBERS.length) % TEAM_MEMBERS.length;
+  const nextLeaderIndex = ((nextWeek - 15) % TEAM_MEMBERS.length + TEAM_MEMBERS.length) % TEAM_MEMBERS.length;
   return TEAM_MEMBERS[nextLeaderIndex];
 }
 
