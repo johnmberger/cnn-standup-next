@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 
 interface SlotMachineSpinnerProps {
   teamMembers: string[];
-  currentLeader: string;
+  excludedMembers: string[];
   onSpin: () => void;
   isSpinning: boolean;
   selectedLeader: string;
@@ -12,7 +12,7 @@ interface SlotMachineSpinnerProps {
 
 export default function SlotMachineSpinner({
   teamMembers,
-  currentLeader,
+  excludedMembers,
   onSpin,
   isSpinning,
   selectedLeader
@@ -20,10 +20,9 @@ export default function SlotMachineSpinner({
   const [displayNames, setDisplayNames] = useState<string[]>([]);
   const [spinCount, setSpinCount] = useState(0);
 
-  // Get available members (excluding current leader) - memoized to prevent infinite re-renders
-  const availableMembers = useMemo(() => 
-    teamMembers.filter(member => member !== currentLeader), 
-    [teamMembers, currentLeader]
+  const availableMembers = useMemo(
+    () => teamMembers.filter(member => !excludedMembers.includes(member)),
+    [teamMembers, excludedMembers]
   );
 
   useEffect(() => {

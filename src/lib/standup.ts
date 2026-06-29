@@ -71,6 +71,31 @@ export function getCurrentStandupLeader(): string {
   return TEAM_MEMBERS[currentLeaderIndex];
 }
 
+export function getPreviousStandupLeader(): string {
+  const now = getNowInEasternTime();
+
+  const currentDay = now.day();
+  const daysToMonday = currentDay === 0 ? -6 : 1 - currentDay;
+  const mondayOfThisWeek = now.add(daysToMonday, 'day').startOf('day');
+  const mondayOfPreviousWeek = mondayOfThisWeek.subtract(7, 'day');
+
+  const fridayOfPreviousWeek = mondayOfPreviousWeek.add(4, 'day');
+  const workDays = getWorkDays(mondayOfPreviousWeek.toDate(), fridayOfPreviousWeek.toDate());
+
+  if (workDays.length === 0) {
+    return '';
+  }
+
+  const startOfYear = now.startOf('year');
+  const startDay = startOfYear.day();
+  const daysToFirstMonday = startDay === 0 ? 1 : 8 - startDay;
+  const firstMondayOfYear = startOfYear.add(daysToFirstMonday - 1, 'day').startOf('day');
+
+  const previousWeek = mondayOfPreviousWeek.diff(firstMondayOfYear, 'week');
+  const previousLeaderIndex = ((previousWeek - 4) % TEAM_MEMBERS.length + TEAM_MEMBERS.length) % TEAM_MEMBERS.length;
+  return TEAM_MEMBERS[previousLeaderIndex];
+}
+
 export function getNextStandupLeader(): string {
   // Get the next week number based on Monday-to-Sunday weeks
   // Use Eastern time to ensure consistency regardless of server/client location

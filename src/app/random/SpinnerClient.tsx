@@ -2,18 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { TEAM_MEMBERS, getCurrentStandupLeader } from '@/lib/standup';
+import { TEAM_MEMBERS, getCurrentStandupLeader, getPreviousStandupLeader } from '@/lib/standup';
 import { getCurrentWeekDates } from '@/lib/dateUtils';
 import { CNNHeader, NewsTicker, LeaderCard, SlotMachineSpinner } from '@/components';
 
 export default function SpinnerClient() {
   const [currentLeader, setCurrentLeader] = useState<string>('');
+  const [previousLeader, setPreviousLeader] = useState<string>('');
   const [currentWeekDates, setCurrentWeekDates] = useState<string>('');
   const [selectedLeader, setSelectedLeader] = useState<string>('');
   const [isSpinning, setIsSpinning] = useState<boolean>(false);
 
+  const excludedMembers = [currentLeader, previousLeader].filter(Boolean);
+
   useEffect(() => {
     setCurrentLeader(getCurrentStandupLeader());
+    setPreviousLeader(getPreviousStandupLeader());
     setCurrentWeekDates(getCurrentWeekDates());
   }, []);
 
@@ -23,8 +27,7 @@ export default function SpinnerClient() {
     setIsSpinning(true);
     setSelectedLeader('');
     
-    // Get available team members (excluding current leader)
-    const availableMembers = TEAM_MEMBERS.filter(member => member !== currentLeader);
+    const availableMembers = TEAM_MEMBERS.filter(member => !excludedMembers.includes(member));
     
     // Randomly select a new leader
     const randomIndex = Math.floor(Math.random() * availableMembers.length);
@@ -72,7 +75,7 @@ export default function SpinnerClient() {
               <div className="px-6 border-l-8" style={{ borderLeftColor: '#ff6b35' }}>
                 <SlotMachineSpinner
                   teamMembers={TEAM_MEMBERS}
-                  currentLeader={currentLeader}
+                  excludedMembers={excludedMembers}
                   onSpin={handleSpin}
                   isSpinning={isSpinning}
                   selectedLeader={selectedLeader}
@@ -98,10 +101,10 @@ export default function SpinnerClient() {
           <div className="mt-8 pt-6 border-t border-gray-200">
             <div className="flex justify-between items-center text-xs text-gray-500">
               <div>
-                Emergency replacement • {TEAM_MEMBERS.length - 1} available members
+                Emergency replacement • {TEAM_MEMBERS.length - excludedMembers.length} available members
               </div>
               <div>
-                Excluding this week&apos;s leader
+                Excluding this week&apos;s and last week&apos;s leaders
               </div>
             </div>
           </div>
