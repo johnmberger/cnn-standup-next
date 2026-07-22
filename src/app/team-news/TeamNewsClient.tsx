@@ -55,6 +55,17 @@ function formatUpdatedAt(date: Date): string {
   return `Updated ${dateLabel} at ${time} ET`;
 }
 
+function shuffleLocations<T>(items: T[]): T[] {
+  const shuffled = [...items];
+
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
 export default function TeamNewsClient() {
   const [data, setData] = useState<TeamNewsData | null>(null);
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
@@ -88,7 +99,10 @@ export default function TeamNewsClient() {
         const payload = (await response.json()) as TeamNewsData;
 
         if (isMounted) {
-          setData(payload);
+          setData({
+            ...payload,
+            locations: shuffleLocations(payload.locations),
+          });
           setUpdatedAt(new Date());
           setError(null);
         }
