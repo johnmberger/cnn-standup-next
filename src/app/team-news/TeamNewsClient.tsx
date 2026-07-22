@@ -128,6 +128,7 @@ export default function TeamNewsClient() {
             <div className="space-y-10">
               <FieldConditionsGrid
                 locations={data.locations}
+                summary={data.summary}
                 unit={temperatureUnit}
                 onUnitChange={handleTemperatureUnitChange}
               />

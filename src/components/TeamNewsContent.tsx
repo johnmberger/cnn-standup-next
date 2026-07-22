@@ -1,4 +1,5 @@
 import type { LocationWeather, UpcomingHoliday, WeatherSummary } from '@/lib/weather';
+import { getAirQualityAlert } from '@/lib/airQuality';
 import { getCountryFlag } from '@/lib/countryFlags';
 import { TEAM_LOCATIONS } from '@/lib/teamLocations';
 import {
@@ -77,10 +78,12 @@ function TemperatureUnitToggle({
 
 export function FieldConditionsGrid({
   locations,
+  summary,
   unit,
   onUnitChange,
 }: {
   locations: LocationWeather[];
+  summary: Pick<WeatherSummary, 'bestWeatherCity'>;
   unit: TemperatureUnit;
   onUnitChange: (unit: TemperatureUnit) => void;
 }) {
@@ -91,7 +94,13 @@ export function FieldConditionsGrid({
         <TemperatureUnitToggle unit={unit} onChange={onUnitChange} />
       </div>
       <div className={WEATHER_GRID}>
-        {locations.map((location) => (
+        {locations.map((location) => {
+          const airQualityAlert =
+            location.airQualityIndex !== null
+              ? getAirQualityAlert(location.airQualityIndex)
+              : null;
+
+          return (
           <div key={location.city} className={WEATHER_CELL}>
             <p className="text-sm font-bold text-black leading-snug">
               <span className="mr-1.5" aria-hidden="true">
@@ -106,8 +115,19 @@ export function FieldConditionsGrid({
             <p className="text-xs font-medium text-gray-600 mt-2">
               {location.emoji} {location.label}
             </p>
+            {airQualityAlert && (
+              <p className="text-xs font-medium text-gray-600 mt-1">
+                {airQualityAlert.icon} {airQualityAlert.label}
+              </p>
+            )}
+            {summary.bestWeatherCity === location.city && (
+              <span className="inline-flex items-center mt-2 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-900">
+                ★ Best weather today
+              </span>
+            )}
           </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

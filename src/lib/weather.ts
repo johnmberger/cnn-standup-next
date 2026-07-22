@@ -6,6 +6,7 @@ export type LocationWeather = {
   weatherCode: number;
   label: string;
   emoji: string;
+  airQualityIndex: number | null;
 };
 
 export type WeatherExtreme = {
@@ -17,6 +18,7 @@ export type WeatherExtreme = {
 
 export type WeatherSummary = {
   wildest: WeatherExtreme | null;
+  bestWeatherCity: string | null;
 };
 
 export type UpcomingHoliday = {
