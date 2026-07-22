@@ -15,6 +15,14 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "CNN Media Management Standup Leader",
   description: "CNN Team Standup Leader Rotation - Breaking News on Who's Leading This Week",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
   icons: {
     icon: '/cnn-icon.ico',
     shortcut: '/cnn-icon.ico',
