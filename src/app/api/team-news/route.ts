@@ -56,8 +56,8 @@ export async function GET() {
     const usHoliday = getNextUsTeamHoliday();
     const holidays = [
       ...(usHoliday ? [usHoliday] : []),
-      ...internationalHolidays,
-    ].sort((a, b) => a.daysUntil - b.daysUntil);
+      ...internationalHolidays.sort((a, b) => a.daysUntil - b.daysUntil),
+    ];
 
     const summary = buildWeatherSummary(locations);
 
