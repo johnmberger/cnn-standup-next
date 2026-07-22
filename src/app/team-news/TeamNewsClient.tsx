@@ -4,6 +4,11 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { TeamNewsData } from '@/lib/weather';
 import {
+  getStoredTemperatureUnit,
+  storeTemperatureUnit,
+  type TemperatureUnit,
+} from '@/lib/temperature';
+import {
   FieldConditionsGrid,
   TeamNewsBriefing,
   TeamNewsSkeleton,
@@ -55,6 +60,19 @@ export default function TeamNewsClient() {
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [temperatureUnit, setTemperatureUnit] = useState<TemperatureUnit>('F');
+
+  useEffect(() => {
+    const storedUnit = getStoredTemperatureUnit();
+    if (storedUnit) {
+      setTemperatureUnit(storedUnit);
+    }
+  }, []);
+
+  function handleTemperatureUnitChange(unit: TemperatureUnit) {
+    setTemperatureUnit(unit);
+    storeTemperatureUnit(unit);
+  }
 
   useEffect(() => {
     let isMounted = true;
@@ -108,7 +126,11 @@ export default function TeamNewsClient() {
             <p className="text-sm text-gray-600">{error}</p>
           ) : data ? (
             <div className="space-y-10">
-              <FieldConditionsGrid locations={data.locations} />
+              <FieldConditionsGrid
+                locations={data.locations}
+                unit={temperatureUnit}
+                onUnitChange={handleTemperatureUnitChange}
+              />
               {(data.summary.wildest || data.holidays.length > 0) && (
                 <div className="border-t-2 border-gray-200 pt-10">
                   <TeamNewsBriefing summary={data.summary} holidays={data.holidays} />

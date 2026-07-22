@@ -1,5 +1,10 @@
 import type { LocationWeather, UpcomingHoliday, WeatherSummary } from '@/lib/weather';
 import { getCountryFlag } from '@/lib/countryFlags';
+import {
+  convertTemperature,
+  formatTemperatureUnit,
+  type TemperatureUnit,
+} from '@/lib/temperature';
 
 const NEWS_GRID = 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 border-l border-t border-gray-200';
 const NEWS_GRID_CELL = 'px-5 py-5 bg-white border-r border-b border-gray-200';
@@ -39,11 +44,46 @@ function SectionBadge({
   );
 }
 
-export function FieldConditionsGrid({ locations }: { locations: LocationWeather[] }) {
+function TemperatureUnitToggle({
+  unit,
+  onChange,
+}: {
+  unit: TemperatureUnit;
+  onChange: (unit: TemperatureUnit) => void;
+}) {
+  return (
+    <div className="inline-flex rounded-md border border-gray-200 overflow-hidden text-xs font-bold">
+      {(['F', 'C'] as const).map((value) => (
+        <button
+          key={value}
+          type="button"
+          onClick={() => onChange(value)}
+          className={`cursor-pointer px-3 py-1 transition-colors ${
+            unit === value ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-50'
+          }`}
+          aria-pressed={unit === value}
+        >
+          °{value}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export function FieldConditionsGrid({
+  locations,
+  unit,
+  onUnitChange,
+}: {
+  locations: LocationWeather[];
+  unit: TemperatureUnit;
+  onUnitChange: (unit: TemperatureUnit) => void;
+}) {
   return (
     <section>
-      <div className="flex items-center gap-2 mb-5">
+      <div className="flex items-center justify-between gap-4 mb-5">
         <SectionBadge>Field Conditions</SectionBadge>
+        <TemperatureUnitToggle unit={unit} onChange={onUnitChange} />
       </div>
       <div className={NEWS_GRID}>
         {locations.map((location) => (
@@ -55,8 +95,8 @@ export function FieldConditionsGrid({ locations }: { locations: LocationWeather[
               {location.city}
             </p>
             <p className="text-5xl font-black text-black leading-none mt-4">
-              {location.temperature}
-              <span className="text-3xl align-top">°F</span>
+              {convertTemperature(location.temperature, unit)}
+              <span className="text-3xl align-top">{formatTemperatureUnit(unit)}</span>
             </p>
             <p className="text-sm font-medium text-gray-600 mt-3">
               {location.emoji} {location.label}

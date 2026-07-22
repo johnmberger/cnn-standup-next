@@ -1,6 +1,7 @@
 export type LocationWeather = {
   city: string;
   countryCode: string;
+  /** Stored in Fahrenheit from the weather API. */
   temperature: number;
   weatherCode: number;
   label: string;
