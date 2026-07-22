@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { TEAM_MEMBERS, getCurrentStandupLeader, getNextStandupLeader, getCurrentWeekNumber } from '@/lib/standup';
 import { getCurrentWeekDates, getNextWeekDates } from '@/lib/dateUtils';
-import { CNNHeader, NewsTicker, LeaderCard, TeamNewsButton } from '@/components';
+import { CNNHeader, NewsTicker, LeaderCard, ParallaxCard, TeamNewsButton } from '@/components';
 
 export default function StandupLeaderClient() {
   const [currentLeader, setCurrentLeader] = useState<string>('');
@@ -23,10 +23,7 @@ export default function StandupLeaderClient() {
 
   return (
     <main className="min-h-screen flex items-center justify-center p-4">
-      <div
-        className="bg-white max-w-2xl w-full border-l-4 shadow-2xl animate-slide-in-up"
-        style={{ borderLeftColor: '#ee0000' }}
-      >
+      <ParallaxCard style={{ borderLeftColor: '#ee0000' }}>
         <CNNHeader />
         <NewsTicker />
         
@@ -63,7 +60,7 @@ export default function StandupLeaderClient() {
             </div>
           </div>
         </div>
-      </div>
+      </ParallaxCard>
 
       <TeamNewsButton />
       
