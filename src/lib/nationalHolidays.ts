@@ -1,11 +1,31 @@
 import type { UpcomingHoliday } from '@/lib/weather';
-import type { TeamCountry } from '@/lib/teamLocations';
+import { TEAM_LOCATIONS } from '@/lib/teamLocations';
 
 type NagerHoliday = {
   date: string;
   localName: string;
   name: string;
 };
+
+type InternationalCountry = {
+  countryCode: Exclude<(typeof TEAM_LOCATIONS)[number]['countryCode'], 'US'>;
+  countryName: string;
+};
+
+function getInternationalTeamCountries(): InternationalCountry[] {
+  const countries = new Map<string, string>();
+
+  for (const location of TEAM_LOCATIONS) {
+    if (location.countryCode !== 'US') {
+      countries.set(location.countryCode, location.countryName);
+    }
+  }
+
+  return [...countries.entries()].map(([countryCode, countryName]) => ({
+    countryCode: countryCode as InternationalCountry['countryCode'],
+    countryName,
+  }));
+}
 
 function formatHolidayDate(dateString: string): string {
   const [year, month, day] = dateString.split('-').map(Number);
@@ -29,7 +49,7 @@ function getDaysUntil(dateString: string): number {
   return Math.round((holidayDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-async function fetchNextHoliday(country: TeamCountry): Promise<UpcomingHoliday | null> {
+async function fetchNextHoliday(country: InternationalCountry): Promise<UpcomingHoliday | null> {
   const response = await fetch(
     `https://date.nager.at/api/v3/NextPublicHolidays/${country.countryCode}`,
     { next: { revalidate: 86400 } }
@@ -46,23 +66,17 @@ async function fetchNextHoliday(country: TeamCountry): Promise<UpcomingHoliday |
     return null;
   }
 
-  const daysUntil = getDaysUntil(nextHoliday.date);
-
   return {
     countryCode: country.countryCode,
     countryName: country.countryName,
     name: nextHoliday.localName || nextHoliday.name,
     dateLabel: formatHolidayDate(nextHoliday.date),
-    daysUntil,
+    daysUntil: getDaysUntil(nextHoliday.date),
   };
 }
 
-export async function fetchUpcomingHolidays(
-  countries: TeamCountry[]
-): Promise<UpcomingHoliday[]> {
-  const holidays = await Promise.all(countries.map(fetchNextHoliday));
+export async function fetchUpcomingInternationalHolidays(): Promise<UpcomingHoliday[]> {
+  const holidays = await Promise.all(getInternationalTeamCountries().map(fetchNextHoliday));
 
-  return holidays
-    .filter((holiday): holiday is UpcomingHoliday => holiday !== null)
-    .sort((a, b) => a.daysUntil - b.daysUntil);
+  return holidays.filter((holiday): holiday is UpcomingHoliday => holiday !== null);
 }

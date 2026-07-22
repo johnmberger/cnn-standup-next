@@ -1,14 +1,19 @@
 import type { LocationWeather, UpcomingHoliday, WeatherSummary } from '@/lib/weather';
 import { getCountryFlag } from '@/lib/countryFlags';
+import { TEAM_LOCATIONS } from '@/lib/teamLocations';
 import {
   convertTemperature,
   formatTemperatureUnit,
   type TemperatureUnit,
 } from '@/lib/temperature';
 
-const NEWS_GRID = 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 border-l border-t border-gray-200';
-const NEWS_GRID_CELL = 'px-5 py-5 bg-white border-r border-b border-gray-200';
-const NEWS_GRID_SKELETON_CELL = 'h-44 bg-gray-100 animate-pulse border-r border-b border-gray-200';
+const GRID_BORDER = 'border-l border-t border-gray-200';
+const GRID_CELL_BORDER = 'bg-white border-r border-b border-gray-200';
+const HOLIDAY_GRID = `grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 ${GRID_BORDER}`;
+const WEATHER_GRID = `grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 ${GRID_BORDER}`;
+const GRID_CELL = `px-5 py-5 ${GRID_CELL_BORDER}`;
+const WEATHER_CELL = `px-4 py-4 ${GRID_CELL_BORDER}`;
+const WEATHER_SKELETON_CELL = `h-36 bg-gray-100 animate-pulse border-r border-b border-gray-200`;
 
 function formatDaysUntil(daysUntil: number): string {
   if (daysUntil === 0) {
@@ -85,20 +90,20 @@ export function FieldConditionsGrid({
         <SectionBadge>Field Conditions</SectionBadge>
         <TemperatureUnitToggle unit={unit} onChange={onUnitChange} />
       </div>
-      <div className={NEWS_GRID}>
+      <div className={WEATHER_GRID}>
         {locations.map((location) => (
-          <div key={location.city} className={NEWS_GRID_CELL}>
-            <p className="text-base font-bold text-black">
-              <span className="mr-2" aria-hidden="true">
+          <div key={location.city} className={WEATHER_CELL}>
+            <p className="text-sm font-bold text-black leading-snug">
+              <span className="mr-1.5" aria-hidden="true">
                 {getCountryFlag(location.countryCode)}
               </span>
               {location.city}
             </p>
-            <p className="text-5xl font-black text-black leading-none mt-4">
+            <p className="text-4xl font-black text-black leading-none mt-3">
               {convertTemperature(location.temperature, unit)}
-              <span className="text-3xl align-top">{formatTemperatureUnit(unit)}</span>
+              <span className="text-2xl align-top">{formatTemperatureUnit(unit)}</span>
             </p>
-            <p className="text-sm font-medium text-gray-600 mt-3">
+            <p className="text-xs font-medium text-gray-600 mt-2">
               {location.emoji} {location.label}
             </p>
           </div>
@@ -141,9 +146,9 @@ export function TeamNewsBriefing({
           <div className="flex items-center gap-2 mb-4">
             <SectionBadge variant="dark">Holiday Watch</SectionBadge>
           </div>
-          <div className={NEWS_GRID}>
+          <div className={HOLIDAY_GRID}>
             {holidays.map((holiday) => (
-              <div key={holiday.countryCode} className={NEWS_GRID_CELL}>
+              <div key={`${holiday.countryCode}-${holiday.name}-${holiday.dateLabel}`} className={GRID_CELL}>
                 <p className="text-sm font-bold text-black">
                   <span className="mr-2 text-lg leading-none" aria-hidden="true">
                     {getCountryFlag(holiday.countryCode)}
@@ -167,9 +172,9 @@ export function TeamNewsBriefing({
 export function TeamNewsSkeleton() {
   return (
     <div className="space-y-8">
-      <div className={NEWS_GRID}>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <div key={index} className={NEWS_GRID_SKELETON_CELL} />
+      <div className={WEATHER_GRID}>
+        {Array.from({ length: TEAM_LOCATIONS.length }).map((_, index) => (
+          <div key={index} className={WEATHER_SKELETON_CELL} />
         ))}
       </div>
       <div className="h-24 rounded-lg bg-gray-100 animate-pulse" />

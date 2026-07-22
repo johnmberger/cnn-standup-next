@@ -18,7 +18,6 @@ export default function SlotMachineSpinner({
   selectedLeader
 }: SlotMachineSpinnerProps) {
   const [displayNames, setDisplayNames] = useState<string[]>([]);
-  const [spinCount, setSpinCount] = useState(0);
 
   const availableMembers = useMemo(
     () => teamMembers.filter(member => !excludedMembers.includes(member)),
@@ -27,7 +26,6 @@ export default function SlotMachineSpinner({
 
   useEffect(() => {
     if (isSpinning) {
-      setSpinCount(prev => prev + 1);
       const interval = setInterval(() => {
         // Show random name during spinning
         const randomName = availableMembers[Math.floor(Math.random() * availableMembers.length)];

@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
-import { getCurrentStandupLeader, getNextStandupLeader, getCurrentWeekNumber } from '@/lib/standup';
+import { getCurrentStandupLeader, getCurrentWeekNumber } from '@/lib/standup';
 import StandupLeaderClient from './StandupLeaderClient';
 
 export async function generateMetadata(): Promise<Metadata> {
   const currentLeader = getCurrentStandupLeader();
-  const nextLeader = getNextStandupLeader();
   const weekNumber = getCurrentWeekNumber();
   const cacheBuster = `w${weekNumber}-${new Date().getFullYear()}`;
 

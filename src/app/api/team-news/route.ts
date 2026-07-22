@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { fetchUpcomingHolidays } from '@/lib/nationalHolidays';
-import { getTeamCountries, TEAM_LOCATIONS } from '@/lib/teamLocations';
+import { getNextUsTeamHoliday } from '@/lib/holidays';
+import { fetchUpcomingInternationalHolidays } from '@/lib/nationalHolidays';
+import { TEAM_LOCATIONS } from '@/lib/teamLocations';
 import { getWeatherDescription } from '@/lib/weatherCodes';
 import { buildWeatherSummary } from '@/lib/weatherSummary';
 import type { TeamNewsData } from '@/lib/weather';
@@ -36,24 +37,27 @@ async function fetchWeatherForLocation(
 
 export async function GET() {
   try {
-    const [locations, holidays] = await Promise.all([
-      Promise.all(
-        TEAM_LOCATIONS.map(async (location) => {
-          const current = await fetchWeatherForLocation(location.latitude, location.longitude);
-          const { label, emoji } = getWeatherDescription(current.weather_code);
+    const locations = await Promise.all(
+      TEAM_LOCATIONS.map(async (location) => {
+        const current = await fetchWeatherForLocation(location.latitude, location.longitude);
+        const { label, emoji } = getWeatherDescription(current.weather_code);
 
-          return {
-            city: location.city,
-            countryCode: location.countryCode,
-            temperature: Math.round(current.temperature_2m),
-            weatherCode: current.weather_code,
-            label,
-            emoji,
-          };
-        })
-      ),
-      fetchUpcomingHolidays(getTeamCountries()),
-    ]);
+        return {
+          city: location.city,
+          countryCode: location.countryCode,
+          temperature: Math.round(current.temperature_2m),
+          weatherCode: current.weather_code,
+          label,
+          emoji,
+        };
+      })
+    );
+    const internationalHolidays = await fetchUpcomingInternationalHolidays();
+    const usHoliday = getNextUsTeamHoliday();
+    const holidays = [
+      ...(usHoliday ? [usHoliday] : []),
+      ...internationalHolidays,
+    ].sort((a, b) => a.daysUntil - b.daysUntil);
 
     const summary = buildWeatherSummary(locations);
 
