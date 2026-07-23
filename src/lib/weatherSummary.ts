@@ -34,7 +34,7 @@ function getSubjectiveWeatherScore(location: LocationWeather): number {
   const comfortScore = getTemperatureComfortScore(location.temperature);
   const airScore = getAirQualityScore(location.airQualityIndex);
 
-  return weatherScore * 0.45 + comfortScore * 0.35 + airScore * 0.2;
+  return weatherScore * 0.4 + comfortScore * 0.5 + airScore * 0.1;
 }
 
 function getBestWeatherCity(locations: LocationWeather[]): string | null {
